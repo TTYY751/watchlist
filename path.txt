@@ -1,0 +1,4 @@
+C:\Users\飞行堡垒\Desktop\cmder\watchlist
+C:\Users\飞行堡垒\Desktop\cmder\watchlist\env
+进入虚拟环境：C:\Users\飞行堡垒\Desktop\cmder\watchlist\env\Scripts\activate 
+退出虚拟环境：C:\Users\飞行堡垒\Desktop\cmder\watchlist\env\Scripts\deactivate
