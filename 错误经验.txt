@@ -1,0 +1,2 @@
+1. cd watchlist这一步是必须的，在cmder里工作前先检查一下自己所在的目录，如果目录错了，cd一下
+2. nano不是cmder自带的，要去官网下载，注意nano的windows版本是要在官网的历史版本里面找.zip结尾的压缩包。
