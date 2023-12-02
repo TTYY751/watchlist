@@ -67,6 +67,7 @@ def forge():
     click.echo('Done.')
 
 
+@app.cli.command()  # 注册为命令
 @click.option('--drop', is_flag=True, help='Create after drop.')
 # 设置选项
 def initdb(drop):
@@ -89,11 +90,11 @@ def index():
             flash('Invalid input.')  # 显示错误提示
             return redirect(url_for('index'))  # 重定向回主页
             # 保存表单数据到数据库
-            movie = Movie(title=title, year=year)  # 创建记录
-            db.session.add(movie)  # 添加到数据库会话
-            db.session.commit()  # 提交数据库会话
-            flash('Item created.')  # 显示成功创建的提示
-            return redirect(url_for('index'))  # 重定向回主页
+        movie = Movie(title=title, year=year)  # 创建记录
+        db.session.add(movie)  # 添加到数据库会话
+        db.session.commit()  # 提交数据库会话
+        flash('Item created.')  # 显示成功创建的提示
+        return redirect(url_for('index'))  # 重定向回主页
     user = User.query.first()
     movies = Movie.query.all()
     return render_template('index.html', user=user, movies=movies)
