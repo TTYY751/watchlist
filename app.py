@@ -43,7 +43,7 @@ class User(db.Model, UserMixin):
 class Movie(db.Model):  # 表名将会是 movie
     id = db.Column(db.Integer, primary_key=True)  # 主键
     title = db.Column(db.String(60))  # 电影标题
-    year = db.Column(db.String(4))  # 电影年份
+    year = db.Column(db.String(20))  # 电影年份
     country = db.Column(db.String(20))
     type = db.Column(db.String(10))
 
@@ -109,13 +109,16 @@ def index():
     if request.method == 'POST':
         if not current_user.is_authenticated:  # 如果当前用户未认证
             return redirect(url_for('index'))
+        id1 = request.form.get('id')
         title = request.form.get('title')  # 传入表单对应输入字段的name 值
         year = request.form.get('year')
-        if not title or not year or len(year) > 4 or len(title) > 60:
+        country = request.form.get('country')
+        type1 = request.form.get('type')
+        if not title or not year or len(year) > 20 or len(title) > 60:
             flash('Invalid input.')  # 显示错误提示
             return redirect(url_for('index'))  # 重定向回主页
             # 保存表单数据到数据库
-        movie = Movie(title=title, year=year)  # 创建记录
+        movie = Movie(id=id1, title=title, year=year, country=country, type=type1)  # 创建记录
         db.session.add(movie)  # 添加到数据库会话
         db.session.commit()  # 提交数据库会话
         flash('Item created.')  # 显示成功创建的提示
@@ -250,10 +253,16 @@ def search_movies():
     if request.method == 'POST':
         # 获取用户输入的电影名
         title = request.form.get('title')
-        year = request.form.get('year')
+
+        # 创建查询基础
+        query = Movie.query
 
         # 在数据库中查询电影
-        movies = Movie.query.filter_by(title=title, year=year).all()
+        if title:
+            query = query.filter_by(title=title)
+
+        # 执行查询
+        movies = query.all()
 
         # 渲染模板并将查询结果传递给模板
         return render_template('search.html', movies=movies)

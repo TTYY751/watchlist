@@ -26,8 +26,8 @@
 		</ul>
 	</nav>
 <form method="post" action="{{ url_for('search_movies') }}">
-	Name <input type="text" name="title" autocomplete="off" required>
-	Year <input type="text" name="year" autocomplete="off" required>
+	Name <input type="text" name="title" autocomplete="off" >
+	
 	<input class="btn" type="submit" name="search" value="Search">
 </form>
 	{% block content %}{% endblock %}
