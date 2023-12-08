@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -44,6 +44,8 @@ class Movie(db.Model):  # 表名将会是 movie
     id = db.Column(db.Integer, primary_key=True)  # 主键
     title = db.Column(db.String(60))  # 电影标题
     year = db.Column(db.String(4))  # 电影年份
+    country = db.Column(db.String(20))
+    type = db.Column(db.String(10))
 
 
 @app.context_processor
@@ -59,21 +61,29 @@ def forge():
     # 全局的两个变量移动到这个函数内
     name = 'TTYY751'
     movies = [
-        {'title': 'My Neighbor Totoro', 'year': '1988'},
-        {'title': 'Dead Poets Society', 'year': '1989'},
-        {'title': 'A Perfect World', 'year': '1993'},
-        {'title': 'Leon', 'year': '1994'},
-        {'title': 'Mahjong', 'year': '1996'},
-        {'title': 'Swallowtail Butterfly', 'year': '1996'},
-        {'title': 'King of Comedy', 'year': '1999'},
-        {'title': 'Devils on the Doorstep', 'year': '1999'},
-        {'title': 'WALL-E', 'year': '2008'},
-        {'title': 'The Pork of Music', 'year': '2012'},
+        {'id': '1001', 'title': '战狼2', 'year': '2017/7/27', 'country': '中国', 'type': '战争'},
+        {'id': '1002', 'title': '哪吒之魔童降世', 'year': '2019/7/26', 'country': '中国', 'type': '动画'},
+        {'id': '1003', 'title': '流浪地球', 'year': '2019/2/5', 'country': '中国', 'type': '科幻'},
+        {'id': '1004', 'title': '复仇者联盟4', 'year': '2019/4/24', 'country': '美国', 'type': '科幻'},
+        {'id': '1005', 'title': '红海行动', 'year': '2018/2/16', 'country': '中国', 'type': '战争'},
+        {'id': '1006', 'title': '唐人街探案2', 'year': '2018/2/16', 'country': '中国', 'type': '喜剧'},
+        {'id': '1007', 'title': '我不是药神', 'year': '2018/7/5', 'country': '中国', 'type': '喜剧'},
+        {'id': '1008', 'title': '中国机长', 'year': '2019/9/30', 'country': '中国', 'type': '剧情'},
+        {'id': '1009', 'title': '速度与激情8', 'year': '2017/4/14', 'country': '美国', 'type': '动作'},
+        {'id': '1010', 'title': '西虹市首富', 'year': '2018/7/27', 'country': '中国', 'type': '喜剧'},
+        {'id': '1011', 'title': '复仇者联盟3', 'year': '2018/5/11', 'country': '美国', 'type': '科幻'},
+        {'id': '1012', 'title': '捉妖记2', 'year': '2018/2/16', 'country': '中国', 'type': '喜剧'},
+        {'id': '1013', 'title': '八佰', 'year': '2020/08/21', 'country': '中国', 'type': '战争'},
+        {'id': '1014', 'title': '姜子牙', 'year': '2020/10/01', 'country': '中国', 'type': '动画'},
+        {'id': '1015', 'title': '我和我的家乡', 'year': '2020/10/01', 'country': '中国', 'type': '剧情'},
+        {'id': '1016', 'title': '你好，李焕英', 'year': '2021/02/12', 'country': '中国', 'type': '喜剧'},
+        {'id': '1017', 'title': '长津湖', 'year': '2021/09/30', 'country': '中国', 'type': '战争'},
+        {'id': '1018', 'title': '速度与激情9', 'year': '2021/05/21', 'country': '中国', 'type': '动作'},
     ]
     user = User(name=name)
     db.session.add(user)
     for m in movies:
-        movie = Movie(title=m['title'], year=m['year'])
+        movie = Movie(id=m['id'], title=m['title'], year=m['year'], country=m['country'], type=m['type'])
         db.session.add(movie)
 
     db.session.commit()
@@ -122,8 +132,8 @@ def edit(movie_id):
 
     if request.method == 'POST':  # 判断是否是 POST 请求
         # 获取表单数据
-        title = request.form('title')  # 传入表单对应输入字段的name 值
-        year = request.form('year')
+        title = request.form['title']  # 传入表单对应输入字段的name 值
+        year = request.form['year']
         # 验证数据
         if not title or not year or len(year) > 4 or len(title) > 60:
             flash('Invalid input.')  # 显示错误提示
@@ -232,3 +242,21 @@ def settings():
         return redirect(url_for('index'))
 
     return render_template('settings.html')
+
+
+@app.route('/search', methods=['POST'])
+def search_movies():
+    movies = None
+    if request.method == 'POST':
+        # 获取用户输入的电影名
+        title = request.form.get('title')
+        year = request.form.get('year')
+
+        # 在数据库中查询电影
+        movies = Movie.query.filter_by(title=title, year=year).all()
+
+        # 渲染模板并将查询结果传递给模板
+        return render_template('search.html', movies=movies)
+
+    # 如果是 GET 请求，直接渲染模板
+    return render_template('404.html')
