@@ -2,9 +2,12 @@
 
 {% block content %}
 <h3>Edit item</h3>
-<form method="post">
-	Name <input type="text" name="title" autocomplete="off" required value="{{ movie.title }}">
-	Year <input type="text" name="year" autocomplete="off" required value="{{ movie.year }}">
+<form method="post" >
+	ID <input type="number" name="id" autocomplete="off" required>
+	Name <input type="text" name="title" autocomplete="off" required>
+	Year <input type="text" name="year" autocomplete="off" required>
+	Country<input type="text" name="country" autocomplete="off" required>
+	Type <input type="text" name="type" autocomplete="off" required>
 	<input class="btn" type="submit" name="submit" value="Update">
 </form>
 {% endblock %}

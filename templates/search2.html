@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Search2</h3>
+{% if actors %}
+    <ul>
+      {% for actor in actors %}
+	<li>{{ actor.id }} - {{ actor.name }} - {{ actor.gender }} -{{ actor.country }}
+		<span class="float-right">
+			<a class="imdb" href="https://www.imdb.com/find?q={{actor.name }}" target="_blank" title="Find this movie on IMDb">IMDb</a>
+		</span>
+	</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No actors found.</p>
+  {% endif %}
+{% endblock %}

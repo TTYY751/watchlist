@@ -48,6 +48,13 @@ class Movie(db.Model):  # 表名将会是 movie
     type = db.Column(db.String(10))
 
 
+class Actor(db.Model):
+    id = db.Column(db.Integer, primary_key=True)  # 主键
+    name = db.Column(db.String(60))  # 演员标题
+    gender = db.Column(db.String(4))  # 性别
+    country = db.Column(db.String(20))
+
+
 @app.context_processor
 def inject_user():  # 函数名可以随意修改
     user = User.query.first()
@@ -80,11 +87,57 @@ def forge():
         {'id': '1017', 'title': '长津湖', 'year': '2021/09/30', 'country': '中国', 'type': '战争'},
         {'id': '1018', 'title': '速度与激情9', 'year': '2021/05/21', 'country': '中国', 'type': '动作'},
     ]
+    actors = [
+        {'id': '2001', 'name': '吴京', 'gender': '男', 'country': '中国'},
+        {'id': '2002', 'name': '饺子', 'gender': '男', 'country': '中国'},
+        {'id': '2003', 'name': '屈楚萧', 'gender': '男', 'country': '中国'},
+        {'id': '2004', 'name': '郭帆', 'gender': '男', 'country': '中国'},
+        {'id': '2005', 'name': '乔罗素', 'gender': '男', 'country': '美国'},
+        {'id': '2006', 'name': '小罗伯特·唐尼', 'gender': '男', 'country': '美国'},
+        {'id': '2007', 'name': '克里斯·埃文斯', 'gender': '男', 'country': '美国'},
+        {'id': '2008', 'name': '林超贤', 'gender': '男', 'country': '中国'},
+        {'id': '2009', 'name': '张译', 'gender': '男', 'country': '中国'},
+        {'id': '2010', 'name': '黄景瑜', 'gender': '男', 'country': '中国'},
+        {'id': '2011', 'name': '陈思诚', 'gender': '男', 'country': '中国'},
+        {'id': '2012', 'name': '王宝强', 'gender': '男', 'country': '中国'},
+        {'id': '2013', 'name': '刘昊然', 'gender': '男', 'country': '中国'},
+        {'id': '2014', 'name': '文牧野', 'gender': '男', 'country': '中国'},
+        {'id': '2015', 'name': '徐峥', 'gender': '男', 'country': '中国'},
+        {'id': '2016', 'name': '刘伟强', 'gender': '男', 'country': '中国'},
+        {'id': '2017', 'name': '张涵予', 'gender': '男', 'country': '中国'},
+        {'id': '2018', 'name': 'F·加里·格雷', 'gender': '男', 'country': '美国'},
+        {'id': '2019', 'name': '范·迪塞尔', 'gender': '男', 'country': '美国'},
+        {'id': '2020', 'name': '杰森·斯坦森', 'gender': '男', 'country': '美国'},
+        {'id': '2021', 'name': '闫非', 'gender': '男', 'country': '中国'},
+        {'id': '2022', 'name': '沈腾', 'gender': '男', 'country': '中国'},
+        {'id': '2023', 'name': '安东尼·罗素', 'gender': '男', 'country': '美国'},
+        {'id': '2024', 'name': '克里斯·海姆斯沃斯', 'gender': '男', 'country': '美国'},
+        {'id': '2025', 'name': '许诚毅', 'gender': '男', 'country': '中国'},
+        {'id': '2026', 'name': '梁朝伟', 'gender': '男', 'country': '中国'},
+        {'id': '2027', 'name': '白百何', 'gender': '女', 'country': '中国'},
+        {'id': '2028', 'name': '井柏然', 'gender': '男', 'country': '中国'},
+        {'id': '2029', 'name': '管虎', 'gender': '男', 'country': '中国'},
+        {'id': '2030', 'name': '王千源', 'gender': '男', 'country': '中国'},
+        {'id': '2031', 'name': '姜武', 'gender': '男', 'country': '中国'},
+        {'id': '2032', 'name': '宁浩', 'gender': '男', 'country': '中国'},
+        {'id': '2033', 'name': '葛优', 'gender': '男', 'country': '中国'},
+        {'id': '2034', 'name': '范伟', 'gender': '男', 'country': '中国'},
+        {'id': '2035', 'name': '贾玲', 'gender': '女', 'country': '中国'},
+        {'id': '2036', 'name': '张小斐', 'gender': '女', 'country': '中国'},
+        {'id': '2037', 'name': '陈凯歌', 'gender': '男', 'country': '中国'},
+        {'id': '2038', 'name': '徐克', 'gender': '男', 'country': '中国'},
+        {'id': '2039', 'name': '易烊千玺', 'gender': '男', 'country': '中国'},
+        {'id': '2040', 'name': '林诣彬', 'gender': '男', 'country': '美国'},
+        {'id': '2041', 'name': '米歇尔·罗德里格兹', 'gender': '女', 'country': '美国'},
+    ]
     user = User(name=name)
     db.session.add(user)
     for m in movies:
         movie = Movie(id=m['id'], title=m['title'], year=m['year'], country=m['country'], type=m['type'])
         db.session.add(movie)
+    for a in actors:
+        actor1 = Actor(id=int(a['id']), name=a['name'], gender=a['gender'], country=a['country'])
+        db.session.add(actor1)
 
     db.session.commit()
     click.echo('Done.')
@@ -135,15 +188,21 @@ def edit(movie_id):
 
     if request.method == 'POST':  # 判断是否是 POST 请求
         # 获取表单数据
-        title = request.form['title']  # 传入表单对应输入字段的name 值
-        year = request.form['year']
+        id1 = request.form.get('id')
+        title = request.form.get('title')  # 传入表单对应输入字段的name 值
+        year = request.form.get('year')
+        country = request.form.get('country')
+        type1 = request.form.get('type')
         # 验证数据
-        if not title or not year or len(year) > 4 or len(title) > 60:
+        if not title or not year or len(year) > 20 or len(title) > 60:
             flash('Invalid input.')  # 显示错误提示
             return redirect(url_for('edit', movie_id=movie_id))  # 重定向回主页
-        # 保存表单数据到数据库
-        movie.title = title  # 更新标题
-        movie.year = year  # 更新年份
+        # 更新已存在的电影对象
+        movie.id = id1
+        movie.title = title
+        movie.year = year
+        movie.country = country
+        movie.type = type1
         db.session.commit()  # 提交数据库会话
         flash('Item updated.')  # 显示成功创建的提示
         return redirect(url_for('index'))  # 重定向回主页
@@ -266,6 +325,37 @@ def search_movies():
 
         # 渲染模板并将查询结果传递给模板
         return render_template('search.html', movies=movies)
+
+    # 如果是 GET 请求，直接渲染模板
+    return render_template('404.html')
+
+
+@app.route('/actor', methods=['GET', 'POST'])
+def actor():
+    if request.method == 'POST':
+        return render_template('actor.html')
+    actors = Actor.query.all()
+    return render_template('actor.html',actors=actors)
+
+
+@app.route('/search2', methods=['POST'])
+def search_actors():
+    if request.method == 'POST':
+        # 获取用户输入的电影名
+        name = request.form.get('name')
+
+        # 创建查询基础
+        query = Actor.query
+
+        # 在数据库中查询演员
+        if name:
+            query = query.filter_by(name=name)
+
+        # 执行查询
+        actors = query.all()
+
+        # 渲染模板并将查询结果传递给模板
+        return render_template('search2.html', actors=actors)
 
     # 如果是 GET 请求，直接渲染模板
     return render_template('404.html')

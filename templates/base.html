@@ -23,10 +23,16 @@
 			{% else %}
 				<li><a href="{{ url_for('login') }}">Login</a></li>
 			{% endif %}
+			<li><a href="{{ url_for('actor') }}">Actor</a></li>
 		</ul>
 	</nav>
 <form method="post" action="{{ url_for('search_movies') }}">
-	Name <input type="text" name="title" autocomplete="off" >
+	movieName <input type="text" name="title" autocomplete="off" >
+	
+	<input class="btn" type="submit" name="search" value="Search">
+</form>
+<form method="post" action="{{ url_for('search_actors') }}">
+	actorName <input type="text" name="name" autocomplete="off" >
 	
 	<input class="btn" type="submit" name="search" value="Search">
 </form>

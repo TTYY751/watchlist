@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{ actors|length }} Actors</p>
+
+<ul class="actor-list">
+	{% for actor in actors %}
+	<li>{{ actor.id }} - {{ actor.name }} - {{ actor.gender }} -{{ actor.country }}
+		<span class="float-right">
+			<a class="imdb" href="https://www.imdb.com/find?q={{actor.name }}" target="_blank" title="Find this movie on IMDb">IMDb</a>
+		</span>
+	</li>
+	{% endfor %}
+</ul>
+<img alt="zbl" class="zbl" src="{{ url_for('static', filename='images/zbl.gif') }}" title="yummy~">
+{% endblock %}                                                                                                                                                                        
