@@ -12,7 +12,7 @@ def read_sqlite_db(db_file_path):
     cursor = connection.cursor()
 
     # 执行 SQL 查询语句
-    cursor.execute("SELECT * FROM actor_info")
+    cursor.execute("SELECT * FROM movie_actor_relation")
 
     # 获取查询结果
     rows = cursor.fetchall()

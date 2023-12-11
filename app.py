@@ -55,6 +55,18 @@ class Actor(db.Model):
     country = db.Column(db.String(20))
 
 
+class Box(db.Model):
+    id = db.Column(db.Integer, primary_key=True)  # 主键
+    box2 = db.Column(db.String(60))
+
+
+class Relationship(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id1 = db.Column(db.Integer)
+    id2 = db.Column(db.Integer)
+    type = db.Column(db.String(10))
+
+
 @app.context_processor
 def inject_user():  # 函数名可以随意修改
     user = User.query.first()
@@ -130,6 +142,81 @@ def forge():
         {'id': '2040', 'name': '林诣彬', 'gender': '男', 'country': '美国'},
         {'id': '2041', 'name': '米歇尔·罗德里格兹', 'gender': '女', 'country': '美国'},
     ]
+    boxes = [
+        {'id': '1001', 'box2': '56.84'},
+        {'id': '1002', 'box2': '50.15'},
+        {'id': '1003', 'box2': '46.86'},
+        {'id': '1004', 'box2': '42.5'},
+        {'id': '1005', 'box2': '36.5'},
+        {'id': '1006', 'box2': '33.97'},
+        {'id': '1007', 'box2': '31.0'},
+        {'id': '1008', 'box2': '29.12'},
+        {'id': '1009', 'box2': '26.7'},
+        {'id': '1010', 'box2': '25.47'},
+        {'id': '1011', 'box2': '23.9'},
+        {'id': '1012', 'box2': '22.37'},
+        {'id': '1013', 'box2': '30.1'},
+        {'id': '1014', 'box2': '16.02'},
+        {'id': '1015', 'box2': '28.29'},
+        {'id': '1016', 'box2': '54.13'},
+        {'id': '1017', 'box2': '53.48'},
+        {'id': '1018', 'box2': '13.92'}
+    ]
+    relationships = [
+        {'id': '1', 'id1': '1001', 'id2': '2001', 'type': '主演'},
+        {'id': '2', 'id1': '1001', 'id2': '2001', 'type': '导演'},
+        {'id': '3', 'id1': '1002', 'id2': '2002', 'type': '导演'},
+        {'id': '4', 'id1': '1003', 'id2': '2001', 'type': '主演'},
+        {'id': '5', 'id1': '1003', 'id2': '2003', 'type': '主演'},
+        {'id': '6', 'id1': '1003', 'id2': '2004', 'type': '导演'},
+        {'id': '7', 'id1': '1004', 'id2': '2005', 'type': '导演'},
+        {'id': '8', 'id1': '1004', 'id2': '2006', 'type': '主演'},
+        {'id': '9', 'id1': '1004', 'id2': '2007', 'type': '主演'},
+        {'id': '10', 'id1': '1005', 'id2': '2008', 'type': '导演'},
+        {'id': '11', 'id1': '1005', 'id2': '2009', 'type': '主演'},
+        {'id': '12', 'id1': '1005', 'id2': '2010', 'type': '主演'},
+        {'id': '13', 'id1': '1006', 'id2': '2011', 'type': '导演'},
+        {'id': '14', 'id1': '1006', 'id2': '2012', 'type': '主演'},
+        {'id': '15', 'id1': '1006', 'id2': '2013', 'type': '主演'},
+        {'id': '16', 'id1': '1007', 'id2': '2014', 'type': '导演'},
+        {'id': '17', 'id1': '1007', 'id2': '2015', 'type': '主演'},
+        {'id': '18', 'id1': '1008', 'id2': '2016', 'type': '导演'},
+        {'id': '19', 'id1': '1008', 'id2': '2017', 'type': '主演'},
+        {'id': '20', 'id1': '1009', 'id2': '2018', 'type': '导演'},
+        {'id': '21', 'id1': '1009', 'id2': '2019', 'type': '主演'},
+        {'id': '22', 'id1': '1009', 'id2': '2020', 'type': '主演'},
+        {'id': '23', 'id1': '1010', 'id2': '2021', 'type': '导演'},
+        {'id': '24', 'id1': '1010', 'id2': '2022', 'type': '主演'},
+        {'id': '25', 'id1': '1011', 'id2': '2023', 'type': '导演'},
+        {'id': '26', 'id1': '1011', 'id2': '2006', 'type': '主演'},
+        {'id': '27', 'id1': '1011', 'id2': '2024', 'type': '主演'},
+        {'id': '28', 'id1': '1012', 'id2': '2025', 'type': '导演'},
+        {'id': '29', 'id1': '1012', 'id2': '2026', 'type': '主演'},
+        {'id': '30', 'id1': '1012', 'id2': '2027', 'type': '主演'},
+        {'id': '31', 'id1': '1012', 'id2': '2028', 'type': '主演'},
+        {'id': '32', 'id1': '1013', 'id2': '2029', 'type': '导演'},
+        {'id': '33', 'id1': '1013', 'id2': '2030', 'type': '主演'},
+        {'id': '34', 'id1': '1013', 'id2': '2009', 'type': '主演'},
+        {'id': '35', 'id1': '1013', 'id2': '2031', 'type': '主演'},
+        {'id': '36', 'id1': '1015', 'id2': '2032', 'type': '导演'},
+        {'id': '37', 'id1': '1015', 'id2': '2015', 'type': '导演'},
+        {'id': '38', 'id1': '1015', 'id2': '2011', 'type': '导演'},
+        {'id': '39', 'id1': '1015', 'id2': '2015', 'type': '主演'},
+        {'id': '40', 'id1': '1015', 'id2': '2033', 'type': '主演'},
+        {'id': '41', 'id1': '1015', 'id2': '2034', 'type': '主演'},
+        {'id': '42', 'id1': '1016', 'id2': '2035', 'type': '导演'},
+        {'id': '43', 'id1': '1016', 'id2': '2035', 'type': '主演'},
+        {'id': '44', 'id1': '1016', 'id2': '2036', 'type': '主演'},
+        {'id': '45', 'id1': '1016', 'id2': '2022', 'type': '主演'},
+        {'id': '46', 'id1': '1017', 'id2': '2037', 'type': '导演'},
+        {'id': '47', 'id1': '1017', 'id2': '2038', 'type': '导演'},
+        {'id': '48', 'id1': '1017', 'id2': '2008', 'type': '导演'},
+        {'id': '49', 'id1': '1017', 'id2': '2001', 'type': '主演'},
+        {'id': '50', 'id1': '1017', 'id2': '2039', 'type': '主演'},
+        {'id': '51', 'id1': '1018', 'id2': '2040', 'type': '导演'},
+        {'id': '52', 'id1': '1018', 'id2': '2019', 'type': '主演'},
+        {'id': '53', 'id1': '1018', 'id2': '2041', 'type': '主演'},
+    ]
     user = User(name=name)
     db.session.add(user)
     for m in movies:
@@ -138,6 +225,12 @@ def forge():
     for a in actors:
         actor1 = Actor(id=int(a['id']), name=a['name'], gender=a['gender'], country=a['country'])
         db.session.add(actor1)
+    for b in boxes:
+        box1 = Box(id=int(b['id']), box2=b['box2'])
+        db.session.add(box1)
+    for r in relationships:
+        relationship1 = Relationship(id=int(r['id']), id1=int(r['id1']), id2=int(r['id2']),type=r['type'])
+        db.session.add(relationship1)
 
     db.session.commit()
     click.echo('Done.')
@@ -335,7 +428,7 @@ def actor():
     if request.method == 'POST':
         return render_template('actor.html')
     actors = Actor.query.all()
-    return render_template('actor.html',actors=actors)
+    return render_template('actor.html', actors=actors)
 
 
 @app.route('/search2', methods=['POST'])
@@ -359,3 +452,19 @@ def search_actors():
 
     # 如果是 GET 请求，直接渲染模板
     return render_template('404.html')
+
+
+@app.route('/box', methods=['GET', 'POST'])
+def box():
+    if request.method == 'POST':
+        return render_template('box.html')
+    boxes = Box.query.all()
+    return render_template('box.html', boxes=boxes)
+
+
+@app.route('/relationship', methods=['GET', 'POST'])
+def relationship():
+    if request.method == 'POST':
+        return render_template('relationship.html')
+    relationships = Relationship.query.all()
+    return render_template('relationship.html', relationships=relationships)

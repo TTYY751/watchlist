@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{ boxes|length }} Boxes</p>
+
+<ul class="box-list">
+	{% for box in boxes %}
+	<li>{{ box.id }} - {{ box.box2 }}亿元
+
+	</li>
+	{% endfor %}
+</ul>
+<img alt="zbl" class="zbl" src="{{ url_for('static', filename='images/zbl.gif') }}" title="yummy~">
+{% endblock %}      

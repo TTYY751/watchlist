@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{ relationships|length }} Relationships</p>
+
+<ul class="relationship-list">
+	{% for relationship in relationships %}
+	<li>{{ relationship.id }} - {{ relationship.id1 }}- {{ relationship.id2 }}- {{ relationship.type }}
+
+	</li>
+	{% endfor %}
+</ul>
+<img alt="zbl" class="zbl" src="{{ url_for('static', filename='images/zbl.gif') }}" title="yummy~">
+{% endblock %}      
